@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>resume</title>
+    <link rel="stylesheet/less" href="css/index.less">
+    <script src="js/less-2.5.3.min.js"></script>
+    <!--DEV 开发环境下用less需要用less-2.5.3.min.js去编译less,生产环境下直接将less编译成css导入到生成环境-->
+    <script>
+        ~function anonymous(window) {
+            let computedEM = function computedEM() {
+                let winW = document.documentElement.clientWidth,
+                    desW = 640;
+                if (winW >= 640) {
+                    document.documentElement.style.fontSize = '100px';
+                    return
+                }
+                document.documentElement.style.fontSize = winW / desW * 100 + 'px';
+            };
+            computedEM();
+            window.addEventListener('resize', computedEM);
+        }(window)
+    </script>
+</head>
+<body>
+<main class="mainBox">
+    <!--LOADING-->
+    <section class="loadingBox">
+        <div class="title">
+            <h1>王成龙</h1>
+            <h2>前端工程师简历</h2>
+        </div>
+        <div class="progress">
+            <div class="current"></div>
+        </div>
+    </section>
+    <section class="phoneBox">
+        <div class="title">
+            <h1>JAMES WANG
+            </h1>
+            <h2>feixiangdjames@gmail.com</h2>
+            <span></span>
+        </div>
+        <div class="answer">
+            <div class="markMove"></div>
+            <a href="javascript:;" class="markLink"></a></div>
+        <div class="hang">
+            <a href="javascript:;" class="markLink"></a>
+        </div>
+        <audio src="audio/bell.mp3" loop preload="none" id="answerBell"></audio>
+        <audio src="audio/say.mp3" loop preload="none" id="introduction"></audio>
+    </section>
+</main>
+</body>
+<script src="js/zepto.min.js"></script>
+<script src="js/index.js"></script>
+</html>

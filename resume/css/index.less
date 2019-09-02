@@ -1,0 +1,165 @@
+html {
+  font-size: 100px /*640px设计稿中：1rem=100px*/
+}
+
+html, body {
+  position: relative;
+  z-index: -4;
+  height: 100%; /*有且只有一屏*/
+  overflow: hidden;
+  background: #f4f4f4;
+}
+
+.mainBox {
+  position: relative;
+  z-index: -3;
+  margin: 0 auto;
+  max-width: 640px;
+  height: 100%;
+  background: #fff;
+}
+
+.loadingBox, .phoneBox {
+  /*公共样式*/
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.loadingBox {
+  background: #000000;
+  .title {
+    position: absolute;
+    height: 1.4rem;
+    left: 0;
+    top: 50%; /*定位在正中间*/
+    margin-top: -2.2rem; /*页面中部开始向上偏移150,中间是-0.7rem*/
+    color: #fff;
+    width: 100%; /*positon定位以后如果没有宽度的话，后续就是自适应的*/
+    h1 {
+      font-size: 0.5rem;
+      line-height: 0.75rem;
+      text-align: center;
+    }
+    h2 {
+      margin-top: .2rem;
+      text-align: center;
+      font-size: 0.26rem;
+      line-height: 0.45rem;
+      letter-spacing: 0.04rem;
+    }
+  }
+  .progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: .3rem;
+    width: 4.6rem;
+    margin: .85rem 0 0 -2.3rem; /*整个是460px*/
+    background: #fff;
+
+    .current {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: -webkit-linear-gradient(left bottom, #5cb85c 0%, #5cb85c 25%, #74c274 25%, #74c274 50%, #5cb85c 50%, #5cb85c 75%, #74c274 75%, #74c274 100%);
+      background-size: .3rem .3rem;
+      animation: loadingMove 1s linear 0s infinite both;
+      transition: all .3s linear 0s;
+    }
+  }
+}
+
+@keyframes loadingMove {
+  /*运动轨迹*/
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -.3rem;
+  }
+}
+
+.phoneBox {
+  z-index: -2;
+  background: url("../img/zf_phoneBg.jpg") no-repeat;
+  background-size: cover;
+  .title {
+    position: absolute;
+    height: 1.25rem;
+    width: 100%;
+    top: 0.2rem;
+    color: #FFF;
+    font-family: "Arial Nova Cond Light";
+    h1 {
+      font-size: 0.5rem;
+      text-align: center;
+    }
+    h2 {
+      margin-top: -0.2rem;
+      font-size: 0.28rem;
+      text-align: center;
+    }
+    span{
+      display: none;
+      position: absolute;
+      top:1.85rem;
+      height: .3rem;
+      font-size:.3rem;
+      letter-spacing: 0.04rem;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .answer {
+    position: absolute;
+    left: 50%;
+    margin-left: -2.6rem;
+    bottom: .3rem;
+    width:5.2rem;
+    height: 3.6rem;
+    background: url("../img/zf_phoneListen.png") no-repeat;
+    background-size: 100% 100%;
+    .markMove{
+      z-index: -1;
+      position: absolute;
+      right: -0.06rem;
+      bottom: .47rem;
+      box-sizing: border-box;
+      width:1.6rem;
+      height:1.6rem;
+      border-radius:50%;
+      border:.03rem solid #0F0;
+      animation: answerMove 1s linear infinite both;
+    }
+    .markLink{
+      .markMove;
+      z-index: 1;
+      border: none;
+      animation: none;
+      border-radius:0;
+    }
+  }
+  .hang{
+    position:absolute;
+    bottom:.3rem;
+    left:50%;
+    margin-left: -2.6rem;
+    height:6.59rem;
+    width: 5.2rem;
+    background:url("../img/zf_phoneDetail.png")no-repeat;
+    background-size: 100% 100%;
+    transform:translateY(6.89rem);
+    transition: .3s;
+  }
+  @keyframes answerMove {
+    from {
+      transform:scale(1.2);
+    }
+    to{
+      transform:scale(0);
+    }
+  }
+}
