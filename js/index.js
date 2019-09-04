@@ -43,6 +43,7 @@ let loadRender = (function () {
         };
     return {
         init: function () {
+            $loadingBox.css('display', 'block');
             run(done);
             maxDelay(done);
         }
@@ -95,6 +96,7 @@ let phoneRender = (function () {
         clearInterval(autoTime);
         introduction.pause();
         $(introduction).remove();
+        console.log(1);
         $phoneBox.remove();
     };
     return {
@@ -107,4 +109,30 @@ let phoneRender = (function () {
         }
     }
 })();
-loadRender.init();
+/*MESSAGE RENDER*/
+let messageRender = (function () {
+      let $messageBox=$('.messageBox');
+    return {
+        init: function () {
+              $messageBox.css('display','block')
+        }
+    }
+})();
+messageRender.init();
+/*HASH*/
+let url=window.location.href,
+    well=url.indexOf('#'),
+    hash=well===-1?null:url.substr(well+1);
+switch(hash){
+    case 'loading':
+        loadRender.init();
+        break;
+    case 'phone':
+        phoneRender.init();
+        break;
+    case 'message':
+        messageRender.init();
+        break;
+    default:
+        loadRender.init();
+}
