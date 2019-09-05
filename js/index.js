@@ -106,6 +106,7 @@ let phoneRender = (function () {
             answerBell.volume = 0.3;
             $answerMarkLink.tap(answerMarkTouch);
             $hangMarkLink.tap(closePhone);
+            messageRender.init();
         }
     }
 })();
@@ -167,6 +168,8 @@ let messageRender = (function () {
     };
     return {
         init: function () {
+            demonMusic.play();
+            demonMusic.volume=0.4;
             $messageBox.css('display', 'block');
             autoTimer = setInterval(showMessage, interval);
             $submit.tap(handleSubmit);
