@@ -98,6 +98,7 @@ let phoneRender = (function () {
         $(introduction).remove();
         console.log(1);
         $phoneBox.remove();
+        messageRender.init();
     };
     return {
         init: function () {
@@ -106,7 +107,6 @@ let phoneRender = (function () {
             answerBell.volume = 0.3;
             $answerMarkLink.tap(answerMarkTouch);
             $hangMarkLink.tap(closePhone);
-            messageRender.init();
         }
     }
 })();
@@ -129,11 +129,17 @@ let messageRender = (function () {
         let $cur = $messageList.eq(step);
         $cur.addClass('active');
         if (step == 0) {
-            handleSend();
+            let autoTimerA=setTimeout(()=>{
+                clearTimeout(autoTimerA);
+                handleSend()},1000);
             clearInterval(autoTimer);
         }
-        if (step >= total) {
+        if (step >= total - 1) {
             clearInterval(autoTimer);
+            let autoClose = setTimeout(() => {
+                closeMessage(),
+                    clearTimeout(autoClose)
+            }, 3000);
         }
         if (step >= 4) {
             let curH = $cur[0].offsetHeight;
@@ -145,12 +151,14 @@ let messageRender = (function () {
         $(`<li class="interView">
            <i class="arrow"></i><img src="img/JSinterview.jpg" alt="" class="pic">
             ${$textInp.html()}
-        </li>`).insertAfter($messageList.eq(0)).addClass('active');
+        </li>`).insertAfter($messageList.eq(step)).addClass('active');
         $messageList = $wrapper.find('li');
         $textInp.html('');
         $submit.css('display', 'none');
         $keyBoard.css({transform: 'translateY(3.7rem)'});
-        autoTimer = setInterval(showMessage, interval)
+        showMessage();
+        autoTimer = setInterval(showMessage, interval);
+
     };
     let handleSend = function () {
         $keyBoard.css('transform', 'translateY(0)').one('transitionend', () => {
@@ -166,13 +174,19 @@ let messageRender = (function () {
                 }, 100)
         })
     };
+    let closeMessage = function () {
+        demonMusic.pause();
+        $messageBox.remove();
+
+    };
     return {
         init: function () {
-            demonMusic.play();
-            demonMusic.volume=0.4;
             $messageBox.css('display', 'block');
+            demonMusic.play();
+            demonMusic.volume = 0.4;
             autoTimer = setInterval(showMessage, interval);
             $submit.tap(handleSubmit);
+
         }
     }
 })();
