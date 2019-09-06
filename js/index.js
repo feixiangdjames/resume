@@ -141,7 +141,8 @@ let messageRender = (function () {
                     clearTimeout(autoClose)
             }, 3000);
         }
-        if (step >= 4) {
+        if (step >= 3) {
+            console.log($cur[0],$cur);
             let curH = $cur[0].offsetHeight;
             tt -= curH;
             $wrapper.css('transform', `translateY(${tt}px)`)
@@ -183,7 +184,7 @@ let messageRender = (function () {
         init: function () {
             $messageBox.css('display', 'block');
             demonMusic.play();
-            demonMusic.volume = 0.4;
+            demonMusic.volume = 0.3;
             autoTimer = setInterval(showMessage, interval);
             $submit.tap(handleSubmit);
 
