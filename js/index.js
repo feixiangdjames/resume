@@ -96,7 +96,6 @@ let phoneRender = (function () {
         clearInterval(autoTime);
         introduction.pause();
         $(introduction).remove();
-        console.log(1);
         $phoneBox.remove();
         messageRender.init();
     };
@@ -137,12 +136,11 @@ let messageRender = (function () {
         if (step >= total - 1) {
             clearInterval(autoTimer);
             let autoClose = setTimeout(() => {
-                closeMessage(),
-                    clearTimeout(autoClose)
+                closeMessage();
+                clearTimeout(autoClose)
             }, 3000);
         }
-        if (step >= 3) {
-            console.log($cur[0],$cur);
+        if (step >= 2) {
             let curH = $cur[0].offsetHeight;
             tt -= curH;
             $wrapper.css('transform', `translateY(${tt}px)`)
@@ -159,7 +157,6 @@ let messageRender = (function () {
         $keyBoard.css({transform: 'translateY(3.7rem)'});
         showMessage();
         autoTimer = setInterval(showMessage, interval);
-
     };
     let handleSend = function () {
         $keyBoard.css('transform', 'translateY(0)').one('transitionend', () => {
@@ -177,8 +174,8 @@ let messageRender = (function () {
     };
     let closeMessage = function () {
         demonMusic.pause();
+        $(demonMusic).remove();
         $messageBox.remove();
-
     };
     return {
         init: function () {
@@ -191,7 +188,64 @@ let messageRender = (function () {
         }
     }
 })();
+let cubeRender = (function () {
+    let $cubeBox = $('.cubeBox'),
+        $cube = $('.cube'),
+        $cubeList = $cube.find('li');
 
+    //=>手指控住旋转
+    let start = function start(ev) {
+        //=>记录手指按在位置的起始坐标
+        let point = ev.changedTouches[0];
+        this.strX = point.clientX;
+        this.strY = point.clientY;
+        this.changeX = 0;
+        this.changeY = 0;
+    };
+    let move = function move(ev) {
+        //=>用最新手指的位置-起始的位置，记录X/Y轴的偏移
+        let point = ev.changedTouches[0];
+        this.changeX = point.clientX - this.strX;
+        this.changeY = point.clientY - this.strY;
+    };
+    let end = function end(ev) {
+        //=>获取CHANGE/ROTATE值
+        let {changeX, changeY, rotateX, rotateY} = this,
+            isMove = false;
+        //=>验证是否发生移动（判断滑动误差）
+        Math.abs(changeX) > 10 || Math.abs(changeY) > 10 ? isMove = true : null;
+        //=>只有发生移动再处理
+        if (isMove) {
+            //1.左右滑=>CHANGE-X=>ROTATE-Y (正比:CHANGE越大ROTATE越大)
+            //2.上下滑=>CHANGE-Y=>ROTATE-X (反比:CHANGE越大ROTATE越小)
+            //3.为了让每一次操作旋转角度小一点，我们可以把移动距离的1/3作为旋转的角度即可
+            rotateX = rotateX - changeY / 3;
+            rotateY = rotateY + changeX / 3;
+            //=>赋值给魔方盒子
+            $(this).css('transform', `scale(0.6) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+            //=>让当前旋转的角度成为下一次起始的角度
+            this.rotateX = rotateX;
+            this.rotateY = rotateY;
+        }
+        //=>清空其它记录的自定义属性值
+        ['strX', 'strY', 'changeX', 'changeY'].forEach(item => this[item] = null);
+    };
+
+    return {
+        init: function () {
+            $cubeBox.css('display', 'block');
+
+            //=>手指操作CUBE,让CUBE跟着旋转
+            let cube = $cube[0];
+            cube.rotateX = -35;
+            cube.rotateY = 35;//=>记录初始的旋转角度（存储到自定义属性上）
+            $cube.on('touchstart', start)
+                .on('touchmove', move)
+                .on('touchend', end);
+            /*=>点击每一个面跳转到详情区域对应的页面*/
+                 }
+    }
+})();
 /*messageRender.init();*/
 /*HASH*/
 let url = window.location.href,
@@ -206,6 +260,9 @@ switch (hash) {
         break;
     case 'message':
         messageRender.init();
+        break;
+    case 'cube':
+        cubeRender.init();
         break;
     default:
         loadRender.init();
