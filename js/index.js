@@ -176,6 +176,7 @@ let messageRender = (function () {
         demonMusic.pause();
         $(demonMusic).remove();
         $messageBox.remove();
+        cubeRender.init();
     };
     return {
         init: function () {
@@ -184,7 +185,6 @@ let messageRender = (function () {
             demonMusic.volume = 0.3;
             autoTimer = setInterval(showMessage, interval);
             $submit.tap(handleSubmit);
-
         }
     }
 })();
